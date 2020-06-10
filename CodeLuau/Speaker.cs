@@ -33,16 +33,14 @@ namespace CodeLuau
 			if (error != null) return new RegisterResponse(error);
 
 			//put list of employers in array
-			var preferredEmployers = new List<string>() { "Pluralsight", "Microsoft", "Google" };
-
-			bool speakerAppearsQualified = yearsExperience > 10 || HasBlog || Certifications.Count() > 3 || preferredEmployers.Contains(Employer);
+			bool speakerAppearsQualified = AppearsExceptional();
 
 			if (!speakerAppearsQualified)
 			{
 				//need to get just the domain from the email
 				string emailDomain = Email.Split('@').Last();
 				var domains = new List<string>() { "aol.com", "prodigy.com", "compuserve.com" };
-				
+
 				if (!domains.Contains(emailDomain) && (!(Browser.Name == WebBrowser.BrowserName.InternetExplorer && Browser.MajorVersion < 9)))
 				{
 					speakerAppearsQualified = true;
@@ -58,7 +56,7 @@ namespace CodeLuau
 					foreach (var session in Sessions)
 					{
 						var ot = new List<string>() { "Cobol", "Punch Cards", "Commodore", "VBScript" };
-				
+
 						foreach (var tech in ot)
 						{
 							if (session.Title.Contains(tech) || session.Description.Contains(tech))
@@ -103,7 +101,7 @@ namespace CodeLuau
 					}
 					else
 					{
-					RegistrationFee = 0;
+						RegistrationFee = 0;
 					}
 
 
@@ -129,9 +127,23 @@ namespace CodeLuau
 
 
 			//if we got this far, the speaker is registered.
-			return new RegisterResponse((int) speakerId);
+			return new RegisterResponse((int)speakerId);
 		}
 
+		private bool AppearsExceptional()
+		{
+			
+
+			if (yearsExperience > 10) return true;
+			if (HasBlog) return true;
+			if (Certifications.Count() > 3) return true;
+
+			var preferredEmployers = new List<string>() { "Pluralsight", "Microsoft", "Google" };
+
+			if (preferredEmployers.Contains(Employer)) return true;
+
+			return false;
+		}
 
 		private RegisterError? ValidateData()
 		{
