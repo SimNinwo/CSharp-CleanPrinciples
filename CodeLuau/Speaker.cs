@@ -44,31 +44,6 @@ namespace CodeLuau
 
 			if (atLeastOneSessionApproved)
 			{
-				//if we got this far, the speaker is approved
-				//let's go ahead and register him/her now.
-				//First, let's calculate the registration fee. 
-				//More experienced speakers pay a lower fee.
-				if (yearsExperience <= 1)
-				{
-					RegistrationFee = 500;
-				}
-				else if (yearsExperience >= 2 && yearsExperience <= 3)
-				{
-					RegistrationFee = 250;
-				}
-				else if (yearsExperience >= 4 && yearsExperience <= 5)
-				{
-					RegistrationFee = 100;
-				}
-				else if (yearsExperience >= 6 && yearsExperience <= 9)
-				{
-					RegistrationFee = 50;
-				}
-				else
-				{
-					RegistrationFee = 0;
-				}
-
 				//Now, save the speaker and sessions to the db.
 				try
 				{
